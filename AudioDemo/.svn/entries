@@ -1,0 +1,40 @@
+10
+
+dir
+618
+https://lc@192.168.190.101:443/svn/Somnic/SM1003/App/ios/AudioDemo
+https://lc@192.168.190.101:443/svn/Somnic
+
+
+
+2016-09-28T01:53:00.265943Z
+618
+lc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+030e0c7a-9dcc-aa44-bb2f-f324bceb05cf
+
+AudioDemo.xcodeproj
+dir
+
+AudioDemo
+dir
+
+AudioDemoUITests
+dir
+
+AudioDemoTests
+dir
+
