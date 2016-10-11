@@ -162,9 +162,10 @@ MFMailComposeViewControllerDelegate
     _sample_content.frame = CGRectMake(10, hh, SCREEN_WIDTH-20, newh*0.66);
     
     [self.waveformView setWaveColor:[UIColor whiteColor]];
-    [self.waveformView setPrimaryWaveLineWidth:3.0f];
+    [self.waveformView setPrimaryWaveLineWidth:1.5f];
     [self.waveformView setSecondaryWaveLineWidth:1.0];
     
+    _timer=[NSTimer scheduledTimerWithTimeInterval:60*60 target:self selector:@selector(anto_save) userInfo:nil repeats:YES];
 
 }
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -254,14 +255,13 @@ MFMailComposeViewControllerDelegate
 }
 - (void)begin_collect
 {
-    if (![_data_string isEqualToString:@""]&&_time_stamp) {
+    if (_data_string.length>2&&_time_stamp) {
         DBMgr *db = [[DBMgr alloc] init];
         [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
     }
     [_data_string setString:@""];
     [_time_interval resignFirstResponder];
-    _time_stamp = [NSDate date];
-    
+
     /* 设置采样的频率，单位是秒 */
     if ([_time_interval.text doubleValue] > 0) {
         _updateInterval = 1/[_time_interval.text doubleValue];
@@ -271,6 +271,8 @@ MFMailComposeViewControllerDelegate
 }
 - (void)stop_collect
 {
+    [_timer invalidate];
+
     if ([self.mManager isDeviceMotionActive] == YES)
     {
         [self.mManager stopDeviceMotionUpdates];
@@ -280,18 +282,32 @@ MFMailComposeViewControllerDelegate
     }
     _sample_content.text = _data_string;
     
-    DBMgr *db = [[DBMgr alloc] init];
-    [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
-    [_data_string setString:@""];
+    if (_data_string.length>2) {
+        DBMgr *db = [[DBMgr alloc] init];
+        [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
+    }
 
+    [_data_string setString:@""];
     
+}
+- (void)anto_save
+{
+    if (_data_string.length>2) {
+        DBMgr *db = [[DBMgr alloc] init];
+        [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
+    }
+    [_data_string setString:@""];
+    _time_stamp = [NSDate date];
+
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
 
-    if (![_data_string isEqualToString:@""]) {
+    if (_data_string.length>2) {
         DBMgr *db = [[DBMgr alloc] init];
         [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
+        [_data_string setString:@""];
+
     }
 }
 - (void)on_copy
@@ -301,6 +317,7 @@ MFMailComposeViewControllerDelegate
     [self sendEmailBtnPressed:_data_string];
     //[SVProgressHUD showSuccessWithStatus:@"拷贝成功"];
 }
+
 - (void)show_all
 {
     DBMgr *db = [[DBMgr alloc] init];
@@ -325,6 +342,8 @@ MFMailComposeViewControllerDelegate
 {
         if ([self.mManager isDeviceMotionAvailable] == YES) {
         [self.mManager setDeviceMotionUpdateInterval:_updateInterval];
+            _time_stamp = [NSDate date];
+            [_timer fire];
         [self.mManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
             if (![self.audioRecorder isRecording])
             {
@@ -348,14 +367,18 @@ MFMailComposeViewControllerDelegate
             double zTheta = acos((sqrtf(gravityZ*gravityZ))/(sqrtf(gravityX*gravityX+gravityY*gravityY+gravityZ*gravityZ)))/M_PI*180.0;
             double yTheta = acos((sqrtf(gravityY*gravityY))/(sqrtf(gravityX*gravityX+gravityY*gravityY+gravityZ*gravityZ)))/M_PI*180.0;
             double xTheta = acos((sqrtf(gravityX*gravityX))/(sqrtf(gravityX*gravityX+gravityY*gravityY+gravityZ*gravityZ)))/M_PI*180.0;
-            [self.waveformView updateWithLevel:[self _normalizedPowerLevelFromDecibels:[self get_audioPowerChange]-160]];
+            [self.waveformView updateWithLevel:[self _normalizedPowerLevelFromDecibels:[[self get_audioPowerChange][0]integerValue]-160]];
 
             if (_zz) {
                 int change_value = sqrtf((_zz-zTheta)*(_zz-zTheta))+sqrtf((_zx-xTheta)*(_zx-xTheta))+sqrtf((_zy-yTheta)*(_zy-yTheta));
+//                int change_value = fabs sqrtf((_zz-zTheta)*(_zz-zTheta))+sqrtf((_zx-xTheta)*(_zx-xTheta))+sqrtf((_zy-yTheta)*(_zy-yTheta));
+                
+                
                 _zz = zTheta;
                 _zx = xTheta;
                 _zy = yTheta;
-                [_data_string appendString:[NSString stringWithFormat:@"%d %d ",change_value,[self get_audioPowerChange]]];
+                NSMutableArray *sample =[self get_audioPowerChange];
+                [_data_string appendString:[NSString stringWithFormat:@"%d %@ %@ ",change_value,sample[0],sample[1]]];
                 [self log_data_angle:change_value power:[self get_audioPowerChange]];
             }else
             {
@@ -399,9 +422,9 @@ MFMailComposeViewControllerDelegate
 }
 
 #pragma mark - 打印
-- (void)log_data_angle:(int)change_value  power:(int)power
+- (void)log_data_angle:(int)change_value  power:(NSMutableArray *)power
 {
-    _sample_content.text = [NSString stringWithFormat:@"手机三轴变化的角度总和：%d \r声音分贝值：%d",change_value,power];
+    _sample_content.text = [NSString stringWithFormat:@"手机三轴变化的角度总和：%d \r声音分贝平均值：%@ \r声音分贝峰值：%@",change_value,power[0],power[1]];
 }
 
 #pragma mark - 获取录音文件
@@ -409,24 +432,20 @@ MFMailComposeViewControllerDelegate
 {
     NSData *data = [self getVideoStremData];
 }
-#pragma mark - 录音声波监测定时器
--(NSTimer *)timer{
-    if (!_timer) {
-        _timer=[NSTimer scheduledTimerWithTimeInterval:0.01f target:self selector:@selector(audioPowerChange) userInfo:nil repeats:YES];
-    }
-    return _timer;
-}
 
 #pragma mark - 录音声波状态监测
--(int)get_audioPowerChange{
+-(NSMutableArray *)get_audioPowerChange{
     [self.audioRecorder updateMeters];//更新测量值
-    int power= [self.audioRecorder averagePowerForChannel:0];
-    double wp = [_audioRecorder peakPowerForChannel:0];
+    int power= [self.audioRecorder averagePowerForChannel:0]+160;
+    int wp = [_audioRecorder peakPowerForChannel:0]+160;
+    NSMutableArray *sample = [NSMutableArray new];
+    [sample addObject:[NSString stringWithFormat:@"%d",power]];
+    [sample addObject:[NSString stringWithFormat:@"%d",wp]];
     //取得第一个通道的音频，注意音频强度范围时-160到0
   //  NSLog(@"%.1f------->>%.1f",power,wp);
   //  CGFloat progress=(1.0/160.0)*(power+160.0);
   //  [self.audioPower setProgress:progress];
-    return power+160;
+    return sample;
 
 }
 -(NSURL *)getSavePath
@@ -479,7 +498,7 @@ MFMailComposeViewControllerDelegate
     //是否使用浮点数采样
     [dicM setObject:@(YES) forKey:AVLinearPCMIsFloatKey];
     //录音的质量
-    [dicM setValue:[NSNumber numberWithInt:AVAudioQualityHigh] forKey:AVEncoderAudioQualityKey];
+    [dicM setValue:[NSNumber numberWithInt:AVAudioQualityMax] forKey:AVEncoderAudioQualityKey];
     //....其他设置等
     return dicM;
 }
