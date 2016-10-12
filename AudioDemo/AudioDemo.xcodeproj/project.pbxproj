@@ -23,6 +23,25 @@
 		C391BB141D9CE69B007E5DBC /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C391BB0B1D9CE69B007E5DBC /* FMDatabaseQueue.m */; };
 		C391BB151D9CE69B007E5DBC /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = C391BB0E1D9CE69B007E5DBC /* FMResultSet.m */; };
 		C391BB171D9CF4E4007E5DBC /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C391BB161D9CF4E4007E5DBC /* libsqlite3.tbd */; };
+		C39AE0A51DACD74200548CAD /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0931DACD74200548CAD /* AFHTTPRequestOperation.m */; };
+		C39AE0A61DACD74200548CAD /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0951DACD74200548CAD /* AFHTTPRequestOperationManager.m */; };
+		C39AE0A71DACD74200548CAD /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0971DACD74200548CAD /* AFHTTPSessionManager.m */; };
+		C39AE0A81DACD74200548CAD /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE09A1DACD74200548CAD /* AFNetworkReachabilityManager.m */; };
+		C39AE0A91DACD74200548CAD /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE09C1DACD74200548CAD /* AFSecurityPolicy.m */; };
+		C39AE0AA1DACD74200548CAD /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE09E1DACD74200548CAD /* AFURLConnectionOperation.m */; };
+		C39AE0AB1DACD74200548CAD /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0A01DACD74200548CAD /* AFURLRequestSerialization.m */; };
+		C39AE0AC1DACD74200548CAD /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0A21DACD74200548CAD /* AFURLResponseSerialization.m */; };
+		C39AE0AD1DACD74200548CAD /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0A41DACD74200548CAD /* AFURLSessionManager.m */; };
+		C39AE0B01DACDBAA00548CAD /* UtilAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0AF1DACDBAA00548CAD /* UtilAPI.m */; };
+		C39AE0C21DACDC1700548CAD /* DateTools.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C39AE0B21DACDC1700548CAD /* DateTools.bundle */; };
+		C39AE0C31DACDC1700548CAD /* DTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0B51DACDC1700548CAD /* DTConstants.m */; };
+		C39AE0C41DACDC1700548CAD /* DTError.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0B71DACDC1700548CAD /* DTError.m */; };
+		C39AE0C51DACDC1700548CAD /* DTTimePeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0B91DACDC1700548CAD /* DTTimePeriod.m */; };
+		C39AE0C61DACDC1700548CAD /* DTTimePeriodChain.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0BB1DACDC1700548CAD /* DTTimePeriodChain.m */; };
+		C39AE0C71DACDC1700548CAD /* DTTimePeriodCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0BD1DACDC1700548CAD /* DTTimePeriodCollection.m */; };
+		C39AE0C81DACDC1700548CAD /* DTTimePeriodGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0BF1DACDC1700548CAD /* DTTimePeriodGroup.m */; };
+		C39AE0C91DACDC1700548CAD /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0C11DACDC1700548CAD /* NSDate+DateTools.m */; };
+		C39AE0CC1DACDFCE00548CAD /* UtilUserDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = C39AE0CB1DACDFCE00548CAD /* UtilUserDefault.m */; };
 		C3A072021D9E1B7F00E5239A /* SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A072011D9E1B7F00E5239A /* SCSiriWaveformView.m */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +94,45 @@
 		C391BB0E1D9CE69B007E5DBC /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		C391BB0F1D9CE69B007E5DBC /* DBMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBMgr.h; sourceTree = "<group>"; };
 		C391BB161D9CF4E4007E5DBC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		C39AE0921DACD74200548CAD /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		C39AE0931DACD74200548CAD /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		C39AE0941DACD74200548CAD /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
+		C39AE0951DACD74200548CAD /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
+		C39AE0961DACD74200548CAD /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		C39AE0971DACD74200548CAD /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		C39AE0981DACD74200548CAD /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		C39AE0991DACD74200548CAD /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		C39AE09A1DACD74200548CAD /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		C39AE09B1DACD74200548CAD /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
+		C39AE09C1DACD74200548CAD /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		C39AE09D1DACD74200548CAD /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		C39AE09E1DACD74200548CAD /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		C39AE09F1DACD74200548CAD /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		C39AE0A01DACD74200548CAD /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		C39AE0A11DACD74200548CAD /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		C39AE0A21DACD74200548CAD /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		C39AE0A31DACD74200548CAD /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
+		C39AE0A41DACD74200548CAD /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		C39AE0AE1DACDBAA00548CAD /* UtilAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilAPI.h; sourceTree = "<group>"; };
+		C39AE0AF1DACDBAA00548CAD /* UtilAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilAPI.m; sourceTree = "<group>"; };
+		C39AE0B21DACDC1700548CAD /* DateTools.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DateTools.bundle; sourceTree = "<group>"; };
+		C39AE0B31DACDC1700548CAD /* DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTools.h; sourceTree = "<group>"; };
+		C39AE0B41DACDC1700548CAD /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
+		C39AE0B51DACDC1700548CAD /* DTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTConstants.m; sourceTree = "<group>"; };
+		C39AE0B61DACDC1700548CAD /* DTError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTError.h; sourceTree = "<group>"; };
+		C39AE0B71DACDC1700548CAD /* DTError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTError.m; sourceTree = "<group>"; };
+		C39AE0B81DACDC1700548CAD /* DTTimePeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriod.h; sourceTree = "<group>"; };
+		C39AE0B91DACDC1700548CAD /* DTTimePeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriod.m; sourceTree = "<group>"; };
+		C39AE0BA1DACDC1700548CAD /* DTTimePeriodChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriodChain.h; sourceTree = "<group>"; };
+		C39AE0BB1DACDC1700548CAD /* DTTimePeriodChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriodChain.m; sourceTree = "<group>"; };
+		C39AE0BC1DACDC1700548CAD /* DTTimePeriodCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriodCollection.h; sourceTree = "<group>"; };
+		C39AE0BD1DACDC1700548CAD /* DTTimePeriodCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriodCollection.m; sourceTree = "<group>"; };
+		C39AE0BE1DACDC1700548CAD /* DTTimePeriodGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriodGroup.h; sourceTree = "<group>"; };
+		C39AE0BF1DACDC1700548CAD /* DTTimePeriodGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriodGroup.m; sourceTree = "<group>"; };
+		C39AE0C01DACDC1700548CAD /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
+		C39AE0C11DACDC1700548CAD /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
+		C39AE0CA1DACDFCE00548CAD /* UtilUserDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilUserDefault.h; sourceTree = "<group>"; };
+		C39AE0CB1DACDFCE00548CAD /* UtilUserDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilUserDefault.m; sourceTree = "<group>"; };
 		C3A072001D9E1B7F00E5239A /* SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSiriWaveformView.h; sourceTree = "<group>"; };
 		C3A072011D9E1B7F00E5239A /* SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSiriWaveformView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,6 +192,10 @@
 				C3228DC51D9B59E300B001A9 /* AppDelegate.m */,
 				C3228DC71D9B59E300B001A9 /* ViewController.h */,
 				C3228DC81D9B59E300B001A9 /* ViewController.m */,
+				C39AE0CA1DACDFCE00548CAD /* UtilUserDefault.h */,
+				C39AE0CB1DACDFCE00548CAD /* UtilUserDefault.m */,
+				C39AE0B11DACDC1700548CAD /* DateTools */,
+				C39AE0911DACD74200548CAD /* AFNetworking */,
 				C391BB0F1D9CE69B007E5DBC /* DBMgr.h */,
 				C391BB021D9CE69B007E5DBC /* DBMgr.m */,
 				C3A071FF1D9E1B7F00E5239A /* SCSiriWaveformView */,
@@ -198,6 +260,57 @@
 				C391BB0E1D9CE69B007E5DBC /* FMResultSet.m */,
 			);
 			path = fmdb;
+			sourceTree = "<group>";
+		};
+		C39AE0911DACD74200548CAD /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				C39AE0AE1DACDBAA00548CAD /* UtilAPI.h */,
+				C39AE0AF1DACDBAA00548CAD /* UtilAPI.m */,
+				C39AE0921DACD74200548CAD /* AFHTTPRequestOperation.h */,
+				C39AE0931DACD74200548CAD /* AFHTTPRequestOperation.m */,
+				C39AE0941DACD74200548CAD /* AFHTTPRequestOperationManager.h */,
+				C39AE0951DACD74200548CAD /* AFHTTPRequestOperationManager.m */,
+				C39AE0961DACD74200548CAD /* AFHTTPSessionManager.h */,
+				C39AE0971DACD74200548CAD /* AFHTTPSessionManager.m */,
+				C39AE0981DACD74200548CAD /* AFNetworking.h */,
+				C39AE0991DACD74200548CAD /* AFNetworkReachabilityManager.h */,
+				C39AE09A1DACD74200548CAD /* AFNetworkReachabilityManager.m */,
+				C39AE09B1DACD74200548CAD /* AFSecurityPolicy.h */,
+				C39AE09C1DACD74200548CAD /* AFSecurityPolicy.m */,
+				C39AE09D1DACD74200548CAD /* AFURLConnectionOperation.h */,
+				C39AE09E1DACD74200548CAD /* AFURLConnectionOperation.m */,
+				C39AE09F1DACD74200548CAD /* AFURLRequestSerialization.h */,
+				C39AE0A01DACD74200548CAD /* AFURLRequestSerialization.m */,
+				C39AE0A11DACD74200548CAD /* AFURLResponseSerialization.h */,
+				C39AE0A21DACD74200548CAD /* AFURLResponseSerialization.m */,
+				C39AE0A31DACD74200548CAD /* AFURLSessionManager.h */,
+				C39AE0A41DACD74200548CAD /* AFURLSessionManager.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		C39AE0B11DACDC1700548CAD /* DateTools */ = {
+			isa = PBXGroup;
+			children = (
+				C39AE0B21DACDC1700548CAD /* DateTools.bundle */,
+				C39AE0B31DACDC1700548CAD /* DateTools.h */,
+				C39AE0B41DACDC1700548CAD /* DTConstants.h */,
+				C39AE0B51DACDC1700548CAD /* DTConstants.m */,
+				C39AE0B61DACDC1700548CAD /* DTError.h */,
+				C39AE0B71DACDC1700548CAD /* DTError.m */,
+				C39AE0B81DACDC1700548CAD /* DTTimePeriod.h */,
+				C39AE0B91DACDC1700548CAD /* DTTimePeriod.m */,
+				C39AE0BA1DACDC1700548CAD /* DTTimePeriodChain.h */,
+				C39AE0BB1DACDC1700548CAD /* DTTimePeriodChain.m */,
+				C39AE0BC1DACDC1700548CAD /* DTTimePeriodCollection.h */,
+				C39AE0BD1DACDC1700548CAD /* DTTimePeriodCollection.m */,
+				C39AE0BE1DACDC1700548CAD /* DTTimePeriodGroup.h */,
+				C39AE0BF1DACDC1700548CAD /* DTTimePeriodGroup.m */,
+				C39AE0C01DACDC1700548CAD /* NSDate+DateTools.h */,
+				C39AE0C11DACDC1700548CAD /* NSDate+DateTools.m */,
+			);
+			path = DateTools;
 			sourceTree = "<group>";
 		};
 		C3A071FF1D9E1B7F00E5239A /* SCSiriWaveformView */ = {
@@ -321,6 +434,7 @@
 				C3228DD11D9B59E300B001A9 /* LaunchScreen.storyboard in Resources */,
 				C3228DCE1D9B59E300B001A9 /* Assets.xcassets in Resources */,
 				C3228DCC1D9B59E300B001A9 /* Main.storyboard in Resources */,
+				C39AE0C21DACDC1700548CAD /* DateTools.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,16 +459,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C39AE0AA1DACD74200548CAD /* AFURLConnectionOperation.m in Sources */,
 				C3228DC91D9B59E300B001A9 /* ViewController.m in Sources */,
+				C39AE0A91DACD74200548CAD /* AFSecurityPolicy.m in Sources */,
 				C391BB141D9CE69B007E5DBC /* FMDatabaseQueue.m in Sources */,
+				C39AE0A61DACD74200548CAD /* AFHTTPRequestOperationManager.m in Sources */,
+				C39AE0C81DACDC1700548CAD /* DTTimePeriodGroup.m in Sources */,
 				C3228DC61D9B59E300B001A9 /* AppDelegate.m in Sources */,
+				C39AE0C41DACDC1700548CAD /* DTError.m in Sources */,
 				C391BB101D9CE69B007E5DBC /* DBMgr.m in Sources */,
+				C39AE0C51DACDC1700548CAD /* DTTimePeriod.m in Sources */,
 				C3A072021D9E1B7F00E5239A /* SCSiriWaveformView.m in Sources */,
 				C391BB111D9CE69B007E5DBC /* FMDatabase.m in Sources */,
 				C391BB131D9CE69B007E5DBC /* FMDatabasePool.m in Sources */,
+				C39AE0AD1DACD74200548CAD /* AFURLSessionManager.m in Sources */,
+				C39AE0AC1DACD74200548CAD /* AFURLResponseSerialization.m in Sources */,
+				C39AE0B01DACDBAA00548CAD /* UtilAPI.m in Sources */,
 				C391BB151D9CE69B007E5DBC /* FMResultSet.m in Sources */,
 				C3228DC31D9B59E300B001A9 /* main.m in Sources */,
+				C39AE0C71DACDC1700548CAD /* DTTimePeriodCollection.m in Sources */,
+				C39AE0AB1DACD74200548CAD /* AFURLRequestSerialization.m in Sources */,
+				C39AE0A81DACD74200548CAD /* AFNetworkReachabilityManager.m in Sources */,
+				C39AE0C61DACDC1700548CAD /* DTTimePeriodChain.m in Sources */,
+				C39AE0CC1DACDFCE00548CAD /* UtilUserDefault.m in Sources */,
+				C39AE0C31DACDC1700548CAD /* DTConstants.m in Sources */,
 				C391BB121D9CE69B007E5DBC /* FMDatabaseAdditions.m in Sources */,
+				C39AE0A51DACD74200548CAD /* AFHTTPRequestOperation.m in Sources */,
+				C39AE0C91DACDC1700548CAD /* NSDate+DateTools.m in Sources */,
+				C39AE0A71DACD74200548CAD /* AFHTTPSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

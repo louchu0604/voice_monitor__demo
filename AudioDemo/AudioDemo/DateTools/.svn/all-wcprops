@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools
+END
+DTTimePeriod.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriod.h
+END
+DTTimePeriodChain.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriodChain.h
+END
+DateTools.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DateTools.h
+END
+DTTimePeriod.m
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriod.m
+END
+DTTimePeriodChain.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriodChain.m
+END
+DTConstants.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTConstants.h
+END
+DTTimePeriodCollection.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriodCollection.h
+END
+DTTimePeriodGroup.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriodGroup.h
+END
+NSDate+DateTools.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/NSDate+DateTools.h
+END
+DTConstants.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTConstants.m
+END
+DTTimePeriodCollection.m
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriodCollection.m
+END
+DTTimePeriodGroup.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTTimePeriodGroup.m
+END
+NSDate+DateTools.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/NSDate+DateTools.m
+END
+DTError.h
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTError.h
+END
+DTError.m
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/ui/DateTools/DTError.m
+END

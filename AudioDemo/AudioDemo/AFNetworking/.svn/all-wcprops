@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Somnic/!svn/ver/40/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking
+END
+AFHTTPSessionManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFHTTPSessionManager.m
+END
+AFURLResponseSerialization.m
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Somnic/!svn/ver/40/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLResponseSerialization.m
+END
+AFSecurityPolicy.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFSecurityPolicy.h
+END
+AFNetworking.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFNetworking.h
+END
+AFSecurityPolicy.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFSecurityPolicy.m
+END
+AFURLSessionManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLSessionManager.h
+END
+AFURLConnectionOperation.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLConnectionOperation.h
+END
+AFHTTPRequestOperationManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFHTTPRequestOperationManager.h
+END
+AFNetworkReachabilityManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFNetworkReachabilityManager.h
+END
+AFURLSessionManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLSessionManager.m
+END
+AFURLConnectionOperation.m
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLConnectionOperation.m
+END
+AFURLRequestSerialization.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLRequestSerialization.h
+END
+AFHTTPRequestOperationManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFHTTPRequestOperationManager.m
+END
+AFHTTPRequestOperation.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFHTTPRequestOperation.h
+END
+AFNetworkReachabilityManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFNetworkReachabilityManager.m
+END
+AFURLRequestSerialization.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLRequestSerialization.m
+END
+AFHTTPSessionManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFHTTPSessionManager.h
+END
+AFHTTPRequestOperation.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFHTTPRequestOperation.m
+END
+AFURLResponseSerialization.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/Somnic/!svn/ver/7/SM1003/App/ios/Haxi/Haxi/util/network/AFNetworking/AFURLResponseSerialization.h
+END

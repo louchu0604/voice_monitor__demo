@@ -13,8 +13,12 @@
 #import "DBMgr.h"
 #import "SCSiriWaveformView.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import "AFNetworking.h"
+#import "UtilAPI.h"
+#import "UtilUserDefault.h"
 
-#define sample_recipients @"38019****@qq.com"
+#define sample_recipients @"**********@qq.com"
+#define serverUrl @"*********"
 
 #define kRecordAudioFile @"myRecord.caf"
 #define scale_device_value(float)   (float)*SCREEN_WIDTH/750
@@ -40,7 +44,8 @@ MFMailComposeViewControllerDelegate
 @property (nonatomic,strong) AVAudioRecorder *audioRecorder;//音频录音机
 @property (nonatomic,strong) NSTimer *timer;//录音声波监控
 @property (nonatomic,strong) AVAudioPlayer *audioPlayer;
-
+@property (nonatomic,strong) UIView *userInfo;
+@property (nonatomic,strong) UIView *dataSpace;
 @property (strong,nonatomic) UIButton *startBtn;
 @property (strong,nonatomic) UIButton *stopBtn;
 @property (strong,nonatomic) UIButton *cBtn;
@@ -52,6 +57,9 @@ MFMailComposeViewControllerDelegate
 @property (nonatomic, strong) CMMotionManager *mManager;
 
 @property (nonatomic,strong) UITextField *time_interval;
+@property (nonatomic,strong) UITextField *user_name;
+@property (nonatomic,strong) UITextField *user_phone;
+
 @property (nonatomic,strong) UITextView *sample_content;
 @property (nonatomic) NSTimeInterval updateInterval;
 @property (nonatomic,strong) NSMutableArray *mdatas;
@@ -69,13 +77,145 @@ MFMailComposeViewControllerDelegate
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self init_datas];
+    
     [self init_ui];
+    [self init_userInfo_ui];
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (void)init_datas
 {
   _data_string =  [NSMutableString stringWithCapacity:0];
 
+}
+- (void)init_userInfo_ui
+{
+    _userInfo = [UIView new];
+    UILabel *usernameL = [UILabel new];
+    UILabel *userPhoneL = [UILabel new];
+    _user_name= [UITextField new];
+    _user_phone= [UITextField new];
+    UIButton *saveBtn = [UIButton new];
+    
+    [self.view addSubview:_userInfo];
+    [_userInfo addSubview:usernameL];
+    [_userInfo addSubview:userPhoneL];
+    [_userInfo addSubview:_user_name];
+    [_userInfo addSubview:_user_phone];
+    [_userInfo addSubview:saveBtn];
+
+    [_userInfo setFrame:CGRectMake(0, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)];
+
+    
+      float hh = scale_device_value(100);
+    UIFont *ff = [UIFont systemFontOfSize:17];
+    
+    [usernameL setFrame:CGRectMake(20, hh, 100, 40)];
+    hh+=50;
+    [_user_name setFrame:CGRectMake(20, hh,  SCREEN_WIDTH-40, 40)];
+    hh+=50;
+    [userPhoneL setFrame:CGRectMake(20, hh,  SCREEN_WIDTH-40, 80)];
+    hh+=90;
+    [_user_phone setFrame:CGRectMake(20, hh,  SCREEN_WIDTH-40, 40)];
+    hh+=50;
+    [saveBtn setFrame:CGRectMake(SCREEN_WIDTH-120, 20, 100, 40)];
+    
+    
+    usernameL.textAlignment = NSTextAlignmentLeft;
+    usernameL.textColor = [UIColor blackColor];
+    usernameL.backgroundColor = [UIColor whiteColor];
+    usernameL.font = ff;
+    usernameL.numberOfLines = 0;
+    usernameL.text = @"测试人姓名";
+    
+    _user_name.textAlignment = NSTextAlignmentLeft;
+    _user_name.textColor = [UIColor blackColor];
+    _user_name.backgroundColor = [UIColor whiteColor];
+    _user_name.font = ff;
+    _user_name.placeholder = @"请输入姓名";
+    _user_name.delegate = self;
+    
+    userPhoneL.textAlignment = NSTextAlignmentLeft;
+    userPhoneL.textColor = [UIColor blackColor];
+    userPhoneL.backgroundColor = [UIColor whiteColor];
+    userPhoneL.font = ff;
+    userPhoneL.numberOfLines = 0;
+    userPhoneL.text = @"如果你有使用传感带，请在下方输入你在智睡/睡咖平台的用户名（手机号）";
+    
+    _user_phone.textAlignment = NSTextAlignmentLeft;
+    _user_phone.textColor = [UIColor blackColor];
+    _user_phone.backgroundColor = [UIColor whiteColor];
+    _user_phone.font = ff;
+    _user_phone.keyboardType = UIKeyboardTypeNumberPad;
+    _user_phone.placeholder = @"智睡/睡咖平台的用户名（手机号）";
+    _user_phone.delegate = self;
+    
+    _userInfo.backgroundColor = [UIColor lightGrayColor];
+    
+    [saveBtn setTitle:@"保存信息" forState:0];
+    [saveBtn setTitleColor:main_rgb forState:0];
+    [saveBtn setBackgroundColor:[UIColor blackColor]];
+    saveBtn.backgroundColor = [UIColor whiteColor];
+    [saveBtn addTarget:self action:@selector(on_save_info) forControlEvents:UIControlEventTouchUpInside];
+
+
+    NSMutableDictionary *info=[UtilUserDefault get_user_info];
+    if (info) {
+        _user_phone.text = [info valueForKey:@"userphone"];
+        _user_name.text = [info valueForKey:@"username"];
+        
+        if (_user_name.text.length==0) {
+            [UIView animateWithDuration:0.5 animations:^{
+                [_userInfo setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+            } completion:^(BOOL finished) {
+                
+            }];
+
+        }
+    }else
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            [_userInfo setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    
+}
+- (void)on_save_info
+{
+    [_user_name resignFirstResponder];
+    [_user_phone resignFirstResponder];
+    if (_user_name.text.length>0) {
+        NSMutableDictionary *info = [NSMutableDictionary new];
+        
+        [info setObject:_user_name.text forKey:@"username"];
+        [info setObject:_user_phone.text forKey:@"userphone"];
+        
+        [UtilUserDefault set_user_info:info];
+        [UIView animateWithDuration:0.5 animations:^{
+            [_userInfo setFrame:CGRectMake(0, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        } completion:^(BOOL finished) {
+            
+        }];
+
+    }else
+    {
+        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请填写姓名"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        
+        [myalert show];
+
+    }
+    
+}
+- (void)on_edit_info
+{
+ 
+    [UIView animateWithDuration:0.5 animations:^{
+        [_userInfo setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    } completion:^(BOOL finished) {
+        
+    }];
+    
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -84,23 +224,32 @@ MFMailComposeViewControllerDelegate
 }
 - (void)init_ui
 {
+    _dataSpace = [UIView new];
     _sample_content = [[UITextView alloc] init];
     _startBtn = [UIButton new];
     _stopBtn = [UIButton new];
     _cBtn = [UIButton new];
     _clearAll = [UIButton new];
+    UIButton *edit = [UIButton new];
+    UIButton *send_mail = [UIButton new];
 
     _showAll=  [UIButton new];
     _time_interval = [UITextField new];
     _mManager = [[CMMotionManager alloc]init];
-    [self.view addSubview:_time_interval];
-    [self.view addSubview:_sample_content];
-    [self.view addSubview:_stopBtn];
-    [self.view addSubview:_startBtn];
-    [self.view addSubview:_cBtn];
-    [self.view addSubview:_showAll];
-    [self.view addSubview:_clearAll];
+    [self.view addSubview:_dataSpace];
+    _dataSpace.userInteractionEnabled = YES;
+    [_dataSpace addSubview:_time_interval];
+    [_dataSpace addSubview:_sample_content];
+    [_dataSpace addSubview:_stopBtn];
+    [_dataSpace addSubview:_startBtn];
+    [_dataSpace addSubview:_cBtn];
+    [_dataSpace addSubview:_showAll];
+    [_dataSpace addSubview:_clearAll];
+    [_dataSpace addSubview:edit];
+    [_dataSpace addSubview:send_mail];
     
+    _dataSpace.frame = self.view.bounds;
+    _dataSpace.backgroundColor = [UIColor clearColor];
     _sample_content.backgroundColor = RGB(247, 247, 247);
     _sample_content.editable = NO;
     _sample_content.textColor = mainBlue_rgb;
@@ -122,7 +271,7 @@ MFMailComposeViewControllerDelegate
     [_cBtn setBackgroundColor:RGB(247, 247, 247)];
     [_cBtn addTarget:self action:@selector(on_copy) forControlEvents:UIControlEventTouchUpInside];
     
-    [_showAll setTitle:@"复制24h数据并发送" forState:0];
+    [_showAll setTitle:@"发给服务器" forState:0];
     [_showAll setTitleColor:main_rgb forState:0];
     [_showAll setBackgroundColor:RGB(247, 247, 247)];
     [_showAll addTarget:self action:@selector(show_all) forControlEvents:UIControlEventTouchUpInside];
@@ -132,6 +281,16 @@ MFMailComposeViewControllerDelegate
     [_clearAll setBackgroundColor:RGB(247, 247, 247)];
     [_clearAll addTarget:self action:@selector(clear_all) forControlEvents:UIControlEventTouchUpInside];
     
+    [edit setTitle:@"修改信息" forState:0];
+    [edit setTitleColor:main_rgb forState:0];
+    [edit setBackgroundColor:RGB(247, 247, 247)];
+    [edit addTarget:self action:@selector(on_edit_info) forControlEvents:UIControlEventTouchUpInside];
+    
+    [send_mail setTitle:@"发送邮件" forState:0];
+    [send_mail setTitleColor:main_rgb forState:0];
+    [send_mail setBackgroundColor:RGB(247, 247, 247)];
+    [send_mail addTarget:self action:@selector(uptomail) forControlEvents:UIControlEventTouchUpInside];
+    
     _time_interval.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.8];
     _time_interval.textAlignment = NSTextAlignmentCenter;
     _time_interval.font = [UIFont systemFontOfSize:18];
@@ -140,20 +299,20 @@ MFMailComposeViewControllerDelegate
     _time_interval.backgroundColor =RGB(247, 247, 247);
     _time_interval.delegate = self;
     _time_interval.keyboardType = UIKeyboardTypeNumberPad;
-
     
-    float ss = SCREEN_WIDTH/4;
+    float ss = (SCREEN_WIDTH-50)/14;
     float hh= 40;
-    [_time_interval setFrame:CGRectMake(10, hh, ss*2-20, 40)];
+    [_time_interval setFrame:CGRectMake(10, hh, ss*6, 40)];
+    [_startBtn setFrame:CGRectMake(ss*6+20, hh, ss*2, 40)];
+    [_stopBtn setFrame:CGRectMake(ss*8+30, hh, ss*2, 40)];
+    [_clearAll setFrame:CGRectMake(ss*10+40, hh, ss*4, 40)];
 
-    [_startBtn setFrame:CGRectMake(ss*2, hh, ss-10, 40)];
-    [_stopBtn setFrame:CGRectMake(ss*3, hh, ss-10, 40)];
     hh+=50;
-    float ww = (SCREEN_WIDTH-40)/7;
-    [_cBtn setFrame:CGRectMake(10, hh, ww, 40)];
-    [_showAll setFrame:CGRectMake(ww+20, hh, ww*4, 40)];
-    [_clearAll setFrame:CGRectMake(ww*5+30, hh, ww*2, 40)];
-
+    float ww = (SCREEN_WIDTH-50)/15;
+    [_cBtn setFrame:CGRectMake(10, hh, ww*2, 40)];
+    [_showAll setFrame:CGRectMake(ww*2+20, hh, ww*5, 40)];
+    [send_mail setFrame:CGRectMake(ww*7+30, hh, ww*4, 40)];
+    [edit setFrame:CGRectMake(ww*11+40, hh, ww*4, 40)];
     hh+=50;
     float newh =SCREEN_HEIGHT-hh-5;
     _waveformView = [[SCSiriWaveformView alloc]initWithFrame:CGRectMake(10, hh, SCREEN_WIDTH-20, newh*0.34)];
@@ -278,7 +437,8 @@ MFMailComposeViewControllerDelegate
         [self.mManager stopDeviceMotionUpdates];
     }
     if ([_audioRecorder isRecording]==YES) {
-        [self stop_recorder];
+        [self.audioRecorder stop];
+
     }
     _sample_content.text = _data_string;
     
@@ -310,12 +470,81 @@ MFMailComposeViewControllerDelegate
 
     }
 }
+#pragma mark - 将数据发送给服务器
+- (void)send_to_server:(NSString *)msg
+{
+    NSMutableDictionary *info=[UtilUserDefault get_user_info];
+    
+    NSString *phone =[info valueForKey:@"userphone"];
+    NSString *name =[info valueForKey:@"username"];
+
+    NSMutableString *filename = [NSMutableString stringWithCapacity:0];
+    [filename setString:@""];
+
+    if (name.length>0) {
+        [filename appendString:name];
+    }
+    if (phone.length>0) {
+        [filename appendString:phone];
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *directoryPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentDirectory = [directoryPaths objectAtIndex:0];
+    NSString *filePath = [documentDirectory stringByAppendingPathComponent:@"UserNameAndPassWord.txt"];
+    if (![fileManager fileExistsAtPath:filePath]) {
+        
+        [fileManager createFileAtPath:filePath contents:nil attributes:nil];
+        
+    }
+    BOOL result = [msg writeToFile:filePath atomically:YES];
+    if (filename.length==0) {
+        [filename appendString:@"未提供姓名"];
+    }
+    if (result) {
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSMutableDictionary *data = [NSMutableDictionary new];
+        NSString *uid =@"18605849405";
+        NSString *passwd =[UtilAPI md5sum:@"123456" ];
+        [manager.requestSerializer setValue:@"1" forHTTPHeaderField:@"appid"];
+        
+        [data setObject:uid forKey:@"name"];
+        [data setObject:passwd forKey:@"password"];
+        NSData *txtdata = [NSData dataWithContentsOfFile:filePath];
+        [manager POST:serverUrl parameters:data constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            
+            [formData appendPartWithFileData:txtdata name:@"1" fileName:[NSString stringWithFormat:@"%@.txt",filename] mimeType:@"text/plain"];
+            
+        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送成功！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+            
+                  [myalert show];
+
+         
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送失败，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+            
+            [myalert show];
+            
+        }];
+
+    }else
+    {
+        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送失败，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        
+        [myalert show];
+    }
+ 
+}
+
 - (void)on_copy
 {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string =_data_string;
     [self sendEmailBtnPressed:_data_string];
-    //[SVProgressHUD showSuccessWithStatus:@"拷贝成功"];
+    UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"拷贝成功！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+    
+    [myalert show];
 }
 
 - (void)show_all
@@ -327,7 +556,37 @@ MFMailComposeViewControllerDelegate
     
     NSString *ss = [db get_time_stamp];
     _sample_content.text = [NSString stringWithFormat:@"最近24小时%@\r详细数据如下，已粘贴到剪切板\r%@",ss,ll];
-    [self sendEmailBtnPressed:ll];
+//    [self sendEmailBtnPressed:ll];
+    if (ll.length<38) {
+        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"还没有收集到数据，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
+        
+        [myalert show];
+
+    }else
+    {
+        [self send_to_server:ll];
+    }
+    
+}
+- (void)uptomail
+{
+    DBMgr *db = [[DBMgr alloc] init];
+    NSString *ll = [db get_data:[NSDate date]];
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string =ll;
+    
+    NSString *ss = [db get_time_stamp];
+    _sample_content.text = [NSString stringWithFormat:@"最近24小时%@\r详细数据如下，已粘贴到剪切板\r%@",ss,ll];
+   
+    if (ll.length<38) {
+        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"还没有收集到数据，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
+        
+        [myalert show];
+        
+    }else
+    {
+     [self sendEmailBtnPressed:ll];
+    }
     
 }
 - (void)clear_all
@@ -337,7 +596,6 @@ MFMailComposeViewControllerDelegate
     
 }
 #pragma mark - 开始采样
-
 - (void)startUpdateAccelerometer
 {
         if ([self.mManager isDeviceMotionAvailable] == YES) {
@@ -378,7 +636,7 @@ MFMailComposeViewControllerDelegate
                 _zx = xTheta;
                 _zy = yTheta;
                 NSMutableArray *sample =[self get_audioPowerChange];
-                [_data_string appendString:[NSString stringWithFormat:@"%d %@ %@ ",change_value,sample[0],sample[1]]];
+                [_data_string appendString:[NSString stringWithFormat:@"%d %@ ",change_value,sample[0]]];
                 [self log_data_angle:change_value power:[self get_audioPowerChange]];
             }else
             {
@@ -410,8 +668,7 @@ MFMailComposeViewControllerDelegate
         }];
     }
 }
-#pragma mark - Private
-         
+#pragma mark - 波纹参数
 - (CGFloat)_normalizedPowerLevelFromDecibels:(CGFloat)decibels
 {
     if (decibels < -60.0f || decibels == 0.0f) {
@@ -424,13 +681,7 @@ MFMailComposeViewControllerDelegate
 #pragma mark - 打印
 - (void)log_data_angle:(int)change_value  power:(NSMutableArray *)power
 {
-    _sample_content.text = [NSString stringWithFormat:@"手机三轴变化的角度总和：%d \r声音分贝平均值：%@ \r声音分贝峰值：%@",change_value,power[0],power[1]];
-}
-
-#pragma mark - 获取录音文件
-- (void)getsample
-{
-    NSData *data = [self getVideoStremData];
+    _sample_content.text = [NSString stringWithFormat:@"手机三轴变化的角度总和：%d \r声音分贝平均值：%@ \r",change_value,power[0]];
 }
 
 #pragma mark - 录音声波状态监测
@@ -440,7 +691,7 @@ MFMailComposeViewControllerDelegate
     int wp = [_audioRecorder peakPowerForChannel:0]+160;
     NSMutableArray *sample = [NSMutableArray new];
     [sample addObject:[NSString stringWithFormat:@"%d",power]];
-    [sample addObject:[NSString stringWithFormat:@"%d",wp]];
+//    [sample addObject:[NSString stringWithFormat:@"%d",wp]];
     //取得第一个通道的音频，注意音频强度范围时-160到0
   //  NSLog(@"%.1f------->>%.1f",power,wp);
   //  CGFloat progress=(1.0/160.0)*(power+160.0);
@@ -460,28 +711,6 @@ MFMailComposeViewControllerDelegate
 - (NSData *)getVideoStremData
 {
     return [NSData dataWithContentsOfURL:[self getSavePath]];
-}
-
-- (void)begin_recorder
-{
-
-    if (![self.audioRecorder isRecording])
-    {
-        [self.audioRecorder record];
-    }
-}
-
-- (void)pause_recorder
-{
-    if ([self.audioRecorder isRecording]) {
-        [self.audioRecorder pause];
-    }
-}
-
-- (void)stop_recorder
-{
-    [self.audioRecorder stop];
-    NSData *data = [self getVideoStremData];
 }
 
 #pragma mark - 录音文件设置
@@ -536,6 +765,5 @@ MFMailComposeViewControllerDelegate
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end
