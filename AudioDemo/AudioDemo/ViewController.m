@@ -18,11 +18,9 @@
 #import "UtilUserDefault.h"
 #import "SVProgressHUD.h"
 
-//#define sample_recipients @"380192098@qq.com"
-//#define serverUrl @"https://zs.somnic.com/api/file/1/uploadfile"
+#define sample_recipients @"380192098@qq.com"
+#define serverUrl @"https://zs.somnic.com/api/file/1/uploadfile"
 
-#define sample_recipients @"**********@qq.com"
-#define serverUrl @"*********"
 
 #define kRecordAudioFile @"myRecord.caf"
 #define scale_device_value(float)   (float)*SCREEN_WIDTH/750
@@ -55,6 +53,9 @@ MFMailComposeViewControllerDelegate
 @property (strong,nonatomic) UIButton *cBtn;
 @property (strong,nonatomic) UIButton *showAll;
 @property (strong,nonatomic) UIButton *clearAll;
+@property (strong,nonatomic) UIButton *editBtn;
+@property (strong,nonatomic) UIButton *sendmailBtn;
+
 
 @property (nonatomic,strong) NSMutableArray *datas;
 @property (nonatomic,strong) NSMutableString *data_string;
@@ -85,6 +86,7 @@ MFMailComposeViewControllerDelegate
     [self init_ui];
     [self init_userInfo_ui];
     [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, SCREEN_HEIGHT*0.5-100)];
+    [self fresh_clearTitle];
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (void)init_datas
@@ -237,8 +239,8 @@ MFMailComposeViewControllerDelegate
     _stopBtn = [UIButton new];
     _cBtn = [UIButton new];
     _clearAll = [UIButton new];
-    UIButton *edit = [UIButton new];
-    UIButton *send_mail = [UIButton new];
+    _editBtn = [UIButton new];
+    _sendmailBtn = [UIButton new];
 
     _showAll=  [UIButton new];
     _time_interval = [UITextField new];
@@ -252,8 +254,8 @@ MFMailComposeViewControllerDelegate
     [_dataSpace addSubview:_cBtn];
     [_dataSpace addSubview:_showAll];
     [_dataSpace addSubview:_clearAll];
-    [_dataSpace addSubview:edit];
-    [_dataSpace addSubview:send_mail];
+    [_dataSpace addSubview:_editBtn];
+    [_dataSpace addSubview:_sendmailBtn];
     
     _dataSpace.frame = self.view.bounds;
     _dataSpace.backgroundColor = [UIColor clearColor];
@@ -265,38 +267,60 @@ MFMailComposeViewControllerDelegate
     
     [_startBtn setTitle:@"开始" forState:0];
     [_startBtn setTitleColor:main_rgb forState:0];
+    [_startBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [_startBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
     [_startBtn setBackgroundColor:RGB(247, 247, 247)];
     [_startBtn addTarget:self action:@selector(begin_collect) forControlEvents:UIControlEventTouchUpInside];
     
     [_stopBtn setTitle:@"停止" forState:0];
     [_stopBtn setTitleColor:main_rgb forState:0];
+    [_stopBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [_stopBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
+
     [_stopBtn setBackgroundColor:RGB(247, 247, 247)];
     [_stopBtn addTarget:self action:@selector(stop_collect) forControlEvents:UIControlEventTouchUpInside];
     
     [_cBtn setTitle:@"复制" forState:0];
     [_cBtn setTitleColor:main_rgb forState:0];
+    [_cBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [_cBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
     [_cBtn setBackgroundColor:RGB(247, 247, 247)];
     [_cBtn addTarget:self action:@selector(on_copy) forControlEvents:UIControlEventTouchUpInside];
     
     [_showAll setTitle:@"发给服务器" forState:0];
     [_showAll setTitleColor:main_rgb forState:0];
+    [_showAll setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [_showAll setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
     [_showAll setBackgroundColor:RGB(247, 247, 247)];
     [_showAll addTarget:self action:@selector(show_all) forControlEvents:UIControlEventTouchUpInside];
     
     [_clearAll setTitle:@"清除缓存" forState:0];
     [_clearAll setTitleColor:main_rgb forState:0];
+     [_clearAll setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [_clearAll setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
     [_clearAll setBackgroundColor:RGB(247, 247, 247)];
     [_clearAll addTarget:self action:@selector(clear_all) forControlEvents:UIControlEventTouchUpInside];
     
-    [edit setTitle:@"修改信息" forState:0];
-    [edit setTitleColor:main_rgb forState:0];
-    [edit setBackgroundColor:RGB(247, 247, 247)];
-    [edit addTarget:self action:@selector(on_edit_info) forControlEvents:UIControlEventTouchUpInside];
+    [_editBtn setTitle:@"修改信息" forState:0];
+    [_editBtn setTitleColor:main_rgb forState:0];
+    [_editBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [_editBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
+    [_editBtn setBackgroundColor:RGB(247, 247, 247)];
+    [_editBtn addTarget:self action:@selector(on_edit_info) forControlEvents:UIControlEventTouchUpInside];
     
-    [send_mail setTitle:@"发送邮件" forState:0];
-    [send_mail setTitleColor:main_rgb forState:0];
-    [send_mail setBackgroundColor:RGB(247, 247, 247)];
-    [send_mail addTarget:self action:@selector(uptomail) forControlEvents:UIControlEventTouchUpInside];
+    [_sendmailBtn setTitle:@"发送邮件" forState:0];
+    [_sendmailBtn setTitleColor:main_rgb forState:0];
+    [_sendmailBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [_sendmailBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
+    [_sendmailBtn setBackgroundColor:RGB(247, 247, 247)];
+    [_sendmailBtn addTarget:self action:@selector(uptomail) forControlEvents:UIControlEventTouchUpInside];
     
     _time_interval.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.8];
     _time_interval.textAlignment = NSTextAlignmentCenter;
@@ -310,17 +334,17 @@ MFMailComposeViewControllerDelegate
     
     float ss = (SCREEN_WIDTH-50)/14;
     float hh= 40;
-    [_time_interval setFrame:CGRectMake(10, hh, ss*6, 40)];
-    [_startBtn setFrame:CGRectMake(ss*6+20, hh, ss*2, 40)];
-    [_stopBtn setFrame:CGRectMake(ss*8+30, hh, ss*2, 40)];
-    [_clearAll setFrame:CGRectMake(ss*10+40, hh, ss*4, 40)];
+    [_time_interval setFrame:CGRectMake(10, hh, ss*4, 40)];
+    [_startBtn setFrame:CGRectMake(ss*4+20, hh, ss*2, 40)];
+    [_stopBtn setFrame:CGRectMake(ss*6+30, hh, ss*2, 40)];
+    [_clearAll setFrame:CGRectMake(ss*8+40, hh, ss*6, 40)];
 
     hh+=50;
     float ww = (SCREEN_WIDTH-50)/15;
     [_cBtn setFrame:CGRectMake(10, hh, ww*2, 40)];
     [_showAll setFrame:CGRectMake(ww*2+20, hh, ww*5, 40)];
-    [send_mail setFrame:CGRectMake(ww*7+30, hh, ww*4, 40)];
-    [edit setFrame:CGRectMake(ww*11+40, hh, ww*4, 40)];
+    [_sendmailBtn setFrame:CGRectMake(ww*7+30, hh, ww*4, 40)];
+    [_editBtn setFrame:CGRectMake(ww*11+40, hh, ww*4, 40)];
     hh+=50;
     float newh =SCREEN_HEIGHT-hh-5;
     _waveformView = [[SCSiriWaveformView alloc]initWithFrame:CGRectMake(10, hh, SCREEN_WIDTH-20, newh*0.34)];
@@ -334,6 +358,16 @@ MFMailComposeViewControllerDelegate
     
     _timer=[NSTimer scheduledTimerWithTimeInterval:60*60 target:self selector:@selector(anto_save) userInfo:nil repeats:YES];
 
+    
+    
+    _startBtn.enabled =YES;
+    _stopBtn.enabled = NO;
+    _editBtn.enabled = YES;
+    _clearAll.enabled = YES;
+    _cBtn.enabled = YES;
+    _showAll.enabled = YES;
+    _editBtn.enabled =YES;
+    _sendmailBtn.enabled = YES;
 }
 #pragma mark - 邮件回调
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -358,11 +392,13 @@ MFMailComposeViewControllerDelegate
         default:
             break;
     }
-    
+    _sendmailBtn.enabled = YES;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)sendEmailBtnPressed:(NSString *)msg
 {
+    _sample_content.text = @" ";
+
     Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
     if (mailClass != nil)
     {
@@ -409,7 +445,7 @@ MFMailComposeViewControllerDelegate
 //    NSString *path = [[NSBundle mainBundle] pathForResource:@"feedback" ofType:@"png"];
 //    NSData *data = [NSData dataWithContentsOfFile:path];
 //    [sendMailViewController addAttachmentData:data mimeType:@"image/png" fileName:@"feedback"];
-    
+    [SVProgressHUD dismiss];
     // 视图呈现
     [self presentViewController:sendMailViewController animated:YES completion:nil];
 }
@@ -419,6 +455,8 @@ MFMailComposeViewControllerDelegate
     NSString *body = [NSString stringWithFormat:@"&body=%@",msg];
     NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
     email = [email stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+    [SVProgressHUD dismiss];
+
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString:email]];
 }
 - (void)begin_collect
@@ -427,12 +465,16 @@ MFMailComposeViewControllerDelegate
     if (_data_string.length>2&&_time_stamp) {
         DBMgr *db = [[DBMgr alloc] init];
         [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
+        [self fresh_clearTitle];
     }
     [_data_string setString:@""];
     [_time_interval resignFirstResponder];
 
     /* 设置采样的频率，单位是秒 */
     if ([_time_interval.text doubleValue] > 0) {
+        _startBtn.enabled = NO;
+        _stopBtn.enabled = YES;
+
         _updateInterval = 1/[_time_interval.text doubleValue];
         [SVProgressHUD showWithStatus:@"开始采集数据"];
         [self startUpdateAccelerometer];
@@ -445,6 +487,8 @@ MFMailComposeViewControllerDelegate
 }
 - (void)stop_collect
 {
+    _startBtn.enabled = YES;
+    _stopBtn.enabled = NO;
     [SVProgressHUD showSuccessWithStatus:@"停止采集数据"];
 
     [_timer invalidate];
@@ -462,6 +506,7 @@ MFMailComposeViewControllerDelegate
     if (_data_string.length>2) {
         DBMgr *db = [[DBMgr alloc] init];
         [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
+        [self fresh_clearTitle];
     }
 
     [_data_string setString:@""];
@@ -472,6 +517,7 @@ MFMailComposeViewControllerDelegate
     if (_data_string.length>2) {
         DBMgr *db = [[DBMgr alloc] init];
         [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
+        [self fresh_clearTitle];
     }
     [_data_string setString:@""];
     _time_stamp = [NSDate date];
@@ -483,6 +529,7 @@ MFMailComposeViewControllerDelegate
     if (_data_string.length>2) {
         DBMgr *db = [[DBMgr alloc] init];
         [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
+        [self fresh_clearTitle];
         [_data_string setString:@""];
 
     }
@@ -490,6 +537,7 @@ MFMailComposeViewControllerDelegate
 #pragma mark - 将数据发送给服务器
 - (void)send_to_server:(NSString *)msg
 {
+    _sample_content.text = @"正在准备数据，请等待";
     NSMutableDictionary *info=[UtilUserDefault get_user_info];
     
     NSString *phone =[info valueForKey:@"userphone"];
@@ -521,8 +569,10 @@ MFMailComposeViewControllerDelegate
         [filename appendString:@"未提供姓名"];
     }
     if (result) {
-       float size = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize]/1024/1024;
-        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"正在发送 %.2f M",size]];
+        _sample_content.text = @"";
+
+        [SVProgressHUD showWithStatus:@"正在发送数据"];
+
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSMutableDictionary *data = [NSMutableDictionary new];
         NSString *uid =@"18605849405";
@@ -549,33 +599,40 @@ MFMailComposeViewControllerDelegate
                 [SVProgressHUD showErrorWithStatus:[responseObject valueForKey:@"description"] ];
 
             }
+            _showAll.enabled = YES;
          
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
             NSLog(@"Error: %@", error);
             [SVProgressHUD showErrorWithStatus:@"发送失败，请稍后再试！"];
-            
+            _showAll.enabled = YES;
+
         }];
 
     }else
     {
         [SVProgressHUD showErrorWithStatus:@"发送失败，请稍后再试！"];
+        _showAll.enabled = YES;
+
     }
  
 }
 
 - (void)on_copy
 {
+    _cBtn.enabled=NO;
+    
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string =_data_string;
-    [self sendEmailBtnPressed:_data_string];
-    UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"拷贝成功！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-    
-    [myalert show];
+//    [self sendEmailBtnPressed:_data_string];
+    [SVProgressHUD showSuccessWithStatus:@"拷贝成功！"];
+
+    _cBtn.enabled = YES;
 }
 
 - (void)show_all
 {
+    _showAll.enabled = NO;
     DBMgr *db = [[DBMgr alloc] init];
     NSString *ll = [db get_data:[NSDate date]];
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
@@ -596,6 +653,9 @@ MFMailComposeViewControllerDelegate
 - (void)uptomail
 {
     [SVProgressHUD showWithStatus:@"准备数据"];
+    _sample_content.text = @"正在准备数据，请等待";
+
+    _sendmailBtn.enabled = NO;
     DBMgr *db = [[DBMgr alloc] init];
     NSString *ll = [db get_data:[NSDate date]];
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
@@ -605,27 +665,36 @@ MFMailComposeViewControllerDelegate
     _sample_content.text = [NSString stringWithFormat:@"最近24小时%@\r详细数据如下，已粘贴到剪切板\r%@",ss,ll];
    
     if (ll.length<38) {
-        [SVProgressHUD dismiss];
-        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"还没有收集到数据，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
-        
-        [myalert show];
+        [SVProgressHUD showErrorWithStatus:@"没有收集到数据，请稍后再试！"];
         
     }else
     {
-        [SVProgressHUD dismiss];
+        _sendmailBtn.enabled = NO;
      [self sendEmailBtnPressed:ll];
     }
     
 }
 - (void)clear_all
 {
+    _clearAll.enabled = NO;
     [SVProgressHUD showWithStatus:@"正在清除"];
 
     DBMgr *db = [[DBMgr alloc] init];
     [db clear_all_data];
     
-    [SVProgressHUD showSuccessWithStatus:@"清除成功"];
+    [self fresh_clearTitle];
     
+    [SVProgressHUD showSuccessWithStatus:@"清除成功"];
+    _clearAll.enabled = YES;
+    
+}
+- (void)fresh_clearTitle
+{
+    float dbSize = [[[DBMgr alloc] init] get_db_size];
+    float sum = (dbSize)/1024/1024;
+    NSString *title = [NSString stringWithFormat:@"清除缓存(%.1fM)", sum];
+    [_clearAll setTitle:title forState:0];
+
 }
 #pragma mark - 开始采样
 - (void)startUpdateAccelerometer
