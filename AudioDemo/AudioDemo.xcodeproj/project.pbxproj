@@ -16,6 +16,9 @@
 		C3228DDC1D9B59E300B001A9 /* AudioDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3228DDB1D9B59E300B001A9 /* AudioDemoTests.m */; };
 		C3228DE71D9B59E300B001A9 /* AudioDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3228DE61D9B59E300B001A9 /* AudioDemoUITests.m */; };
 		C3228DF61D9B60E800B001A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3228DF51D9B60E800B001A9 /* CoreMotion.framework */; };
+		C34E85C21DADDE9200A5BDF0 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E85BE1DADDE9200A5BDF0 /* SVIndefiniteAnimatedView.m */; };
+		C34E85C31DADDE9200A5BDF0 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C34E85BF1DADDE9200A5BDF0 /* SVProgressHUD.bundle */; };
+		C34E85C41DADDE9200A5BDF0 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E85C11DADDE9200A5BDF0 /* SVProgressHUD.m */; };
 		C391BB101D9CE69B007E5DBC /* DBMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = C391BB021D9CE69B007E5DBC /* DBMgr.m */; };
 		C391BB111D9CE69B007E5DBC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = C391BB051D9CE69B007E5DBC /* FMDatabase.m */; };
 		C391BB121D9CE69B007E5DBC /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C391BB071D9CE69B007E5DBC /* FMDatabaseAdditions.m */; };
@@ -80,6 +83,11 @@
 		C3228DE61D9B59E300B001A9 /* AudioDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioDemoUITests.m; sourceTree = "<group>"; };
 		C3228DE81D9B59E300B001A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3228DF51D9B60E800B001A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		C34E85BD1DADDE9200A5BDF0 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		C34E85BE1DADDE9200A5BDF0 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		C34E85BF1DADDE9200A5BDF0 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		C34E85C01DADDE9200A5BDF0 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		C34E85C11DADDE9200A5BDF0 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		C391BB021D9CE69B007E5DBC /* DBMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBMgr.m; sourceTree = "<group>"; };
 		C391BB041D9CE69B007E5DBC /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		C391BB051D9CE69B007E5DBC /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -194,6 +202,7 @@
 				C3228DC81D9B59E300B001A9 /* ViewController.m */,
 				C39AE0CA1DACDFCE00548CAD /* UtilUserDefault.h */,
 				C39AE0CB1DACDFCE00548CAD /* UtilUserDefault.m */,
+				C34E85BC1DADDE9200A5BDF0 /* SVProgressHUD */,
 				C39AE0B11DACDC1700548CAD /* DateTools */,
 				C39AE0911DACD74200548CAD /* AFNetworking */,
 				C391BB0F1D9CE69B007E5DBC /* DBMgr.h */,
@@ -242,6 +251,18 @@
 				C3228DF51D9B60E800B001A9 /* CoreMotion.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C34E85BC1DADDE9200A5BDF0 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				C34E85BD1DADDE9200A5BDF0 /* SVIndefiniteAnimatedView.h */,
+				C34E85BE1DADDE9200A5BDF0 /* SVIndefiniteAnimatedView.m */,
+				C34E85BF1DADDE9200A5BDF0 /* SVProgressHUD.bundle */,
+				C34E85C01DADDE9200A5BDF0 /* SVProgressHUD.h */,
+				C34E85C11DADDE9200A5BDF0 /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 		C391BB031D9CE69B007E5DBC /* fmdb */ = {
@@ -431,6 +452,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C34E85C31DADDE9200A5BDF0 /* SVProgressHUD.bundle in Resources */,
 				C3228DD11D9B59E300B001A9 /* LaunchScreen.storyboard in Resources */,
 				C3228DCE1D9B59E300B001A9 /* Assets.xcassets in Resources */,
 				C3228DCC1D9B59E300B001A9 /* Main.storyboard in Resources */,
@@ -471,10 +493,12 @@
 				C39AE0C51DACDC1700548CAD /* DTTimePeriod.m in Sources */,
 				C3A072021D9E1B7F00E5239A /* SCSiriWaveformView.m in Sources */,
 				C391BB111D9CE69B007E5DBC /* FMDatabase.m in Sources */,
+				C34E85C21DADDE9200A5BDF0 /* SVIndefiniteAnimatedView.m in Sources */,
 				C391BB131D9CE69B007E5DBC /* FMDatabasePool.m in Sources */,
 				C39AE0AD1DACD74200548CAD /* AFURLSessionManager.m in Sources */,
 				C39AE0AC1DACD74200548CAD /* AFURLResponseSerialization.m in Sources */,
 				C39AE0B01DACDBAA00548CAD /* UtilAPI.m in Sources */,
+				C34E85C41DADDE9200A5BDF0 /* SVProgressHUD.m in Sources */,
 				C391BB151D9CE69B007E5DBC /* FMResultSet.m in Sources */,
 				C3228DC31D9B59E300B001A9 /* main.m in Sources */,
 				C39AE0C71DACDC1700548CAD /* DTTimePeriodCollection.m in Sources */,

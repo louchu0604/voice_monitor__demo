@@ -16,6 +16,10 @@
 #import "AFNetworking.h"
 #import "UtilAPI.h"
 #import "UtilUserDefault.h"
+#import "SVProgressHUD.h"
+
+//#define sample_recipients @"380192098@qq.com"
+//#define serverUrl @"https://zs.somnic.com/api/file/1/uploadfile"
 
 #define sample_recipients @"**********@qq.com"
 #define serverUrl @"*********"
@@ -80,6 +84,7 @@ MFMailComposeViewControllerDelegate
     
     [self init_ui];
     [self init_userInfo_ui];
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, SCREEN_HEIGHT*0.5-100)];
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (void)init_datas
@@ -164,6 +169,7 @@ MFMailComposeViewControllerDelegate
         _user_name.text = [info valueForKey:@"username"];
         
         if (_user_name.text.length==0) {
+            [_user_name becomeFirstResponder];
             [UIView animateWithDuration:0.5 animations:^{
                 [_userInfo setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
             } completion:^(BOOL finished) {
@@ -173,6 +179,7 @@ MFMailComposeViewControllerDelegate
         }
     }else
     {
+        [_time_interval becomeFirstResponder];
         [UIView animateWithDuration:0.5 animations:^{
             [_userInfo setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         } completion:^(BOOL finished) {
@@ -186,6 +193,7 @@ MFMailComposeViewControllerDelegate
     [_user_name resignFirstResponder];
     [_user_phone resignFirstResponder];
     if (_user_name.text.length>0) {
+        [SVProgressHUD showWithStatus:@"正在保存"];
         NSMutableDictionary *info = [NSMutableDictionary new];
         
         [info setObject:_user_name.text forKey:@"username"];
@@ -195,15 +203,14 @@ MFMailComposeViewControllerDelegate
         [UIView animateWithDuration:0.5 animations:^{
             [_userInfo setFrame:CGRectMake(0, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)];
         } completion:^(BOOL finished) {
+           
+            [SVProgressHUD showSuccessWithStatus:@"保存成功"];
             
         }];
 
     }else
     {
-        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请填写姓名"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-        
-        [myalert show];
-
+        [SVProgressHUD showErrorWithStatus:@"请填写姓名"];
     }
     
 }
@@ -299,6 +306,7 @@ MFMailComposeViewControllerDelegate
     _time_interval.backgroundColor =RGB(247, 247, 247);
     _time_interval.delegate = self;
     _time_interval.keyboardType = UIKeyboardTypeNumberPad;
+    _time_interval.text = @"10";
     
     float ss = (SCREEN_WIDTH-50)/14;
     float hh= 40;
@@ -327,23 +335,24 @@ MFMailComposeViewControllerDelegate
     _timer=[NSTimer scheduledTimerWithTimeInterval:60*60 target:self selector:@selector(anto_save) userInfo:nil repeats:YES];
 
 }
+#pragma mark - 邮件回调
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     switch (result) {
         case MFMailComposeResultCancelled: {
-            NSLog(@"Mail send canceled.");
+            [SVProgressHUD showErrorWithStatus:@"取消发送"];
             break;
         }
         case MFMailComposeResultSaved: {
-            NSLog(@"Mail saved.");
+            [SVProgressHUD showSuccessWithStatus:@"保存成功"];
             break;
         }
         case MFMailComposeResultSent: {
-            NSLog(@"Mail sent.");
+            [SVProgressHUD showSuccessWithStatus:@"发送成功"];
             break;
         }
         case MFMailComposeResultFailed: {
-            NSLog(@"Mail sent Failed.");
+            [SVProgressHUD showErrorWithStatus:@"发送失败"];
             break;
         }
         default:
@@ -414,6 +423,7 @@ MFMailComposeViewControllerDelegate
 }
 - (void)begin_collect
 {
+    
     if (_data_string.length>2&&_time_stamp) {
         DBMgr *db = [[DBMgr alloc] init];
         [db add_data:_data_string time:_time_stamp endtime:[NSDate date]];
@@ -424,12 +434,19 @@ MFMailComposeViewControllerDelegate
     /* 设置采样的频率，单位是秒 */
     if ([_time_interval.text doubleValue] > 0) {
         _updateInterval = 1/[_time_interval.text doubleValue];
+        [SVProgressHUD showWithStatus:@"开始采集数据"];
         [self startUpdateAccelerometer];
+        
+    }else
+    {
+        [SVProgressHUD showErrorWithStatus:@"请填写采样频率"];
     }
     
 }
 - (void)stop_collect
 {
+    [SVProgressHUD showSuccessWithStatus:@"停止采集数据"];
+
     [_timer invalidate];
 
     if ([self.mManager isDeviceMotionActive] == YES)
@@ -497,42 +514,52 @@ MFMailComposeViewControllerDelegate
         [fileManager createFileAtPath:filePath contents:nil attributes:nil];
         
     }
-    BOOL result = [msg writeToFile:filePath atomically:YES];
+
+    BOOL result =[msg writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    
     if (filename.length==0) {
         [filename appendString:@"未提供姓名"];
     }
     if (result) {
+       float size = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize]/1024/1024;
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"正在发送 %.2f M",size]];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSMutableDictionary *data = [NSMutableDictionary new];
         NSString *uid =@"18605849405";
         NSString *passwd =[UtilAPI md5sum:@"123456" ];
         [manager.requestSerializer setValue:@"1" forHTTPHeaderField:@"appid"];
+        [manager.requestSerializer setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
         
         [data setObject:uid forKey:@"name"];
         [data setObject:passwd forKey:@"password"];
         NSData *txtdata = [NSData dataWithContentsOfFile:filePath];
+
         [manager POST:serverUrl parameters:data constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             
             [formData appendPartWithFileData:txtdata name:@"1" fileName:[NSString stringWithFormat:@"%@.txt",filename] mimeType:@"text/plain"];
             
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送成功！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-            
-                  [myalert show];
 
+            if ([[responseObject valueForKey:@"error"] intValue]==200) {
+                [SVProgressHUD showSuccessWithStatus:@"发送成功！"];
+
+            }else
+            {
+                [SVProgressHUD showErrorWithStatus:[responseObject valueForKey:@"description"] ];
+
+            }
          
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送失败，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-            
-            [myalert show];
+
+            NSLog(@"Error: %@", error);
+            [SVProgressHUD showErrorWithStatus:@"发送失败，请稍后再试！"];
             
         }];
 
     }else
     {
-        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送失败，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-        
-        [myalert show];
+        [SVProgressHUD showErrorWithStatus:@"发送失败，请稍后再试！"];
     }
  
 }
@@ -558,18 +585,17 @@ MFMailComposeViewControllerDelegate
     _sample_content.text = [NSString stringWithFormat:@"最近24小时%@\r详细数据如下，已粘贴到剪切板\r%@",ss,ll];
 //    [self sendEmailBtnPressed:ll];
     if (ll.length<38) {
-        UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"还没有收集到数据，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
-        
-        [myalert show];
+      
+        [SVProgressHUD showErrorWithStatus:@"还没有收集到数据，请稍后再试！"];
+        return;
 
-    }else
-    {
-        [self send_to_server:ll];
     }
+    [self send_to_server:ll];
     
 }
 - (void)uptomail
 {
+    [SVProgressHUD showWithStatus:@"准备数据"];
     DBMgr *db = [[DBMgr alloc] init];
     NSString *ll = [db get_data:[NSDate date]];
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
@@ -579,30 +605,38 @@ MFMailComposeViewControllerDelegate
     _sample_content.text = [NSString stringWithFormat:@"最近24小时%@\r详细数据如下，已粘贴到剪切板\r%@",ss,ll];
    
     if (ll.length<38) {
+        [SVProgressHUD dismiss];
         UIAlertView *myalert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"还没有收集到数据，请稍后再试！"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"我知道了", nil];
         
         [myalert show];
         
     }else
     {
+        [SVProgressHUD dismiss];
      [self sendEmailBtnPressed:ll];
     }
     
 }
 - (void)clear_all
 {
+    [SVProgressHUD showWithStatus:@"正在清除"];
+
     DBMgr *db = [[DBMgr alloc] init];
     [db clear_all_data];
+    
+    [SVProgressHUD showSuccessWithStatus:@"清除成功"];
     
 }
 #pragma mark - 开始采样
 - (void)startUpdateAccelerometer
 {
+    [SVProgressHUD showWithStatus:@"正在采集数据"];
         if ([self.mManager isDeviceMotionAvailable] == YES) {
         [self.mManager setDeviceMotionUpdateInterval:_updateInterval];
             _time_stamp = [NSDate date];
             [_timer fire];
         [self.mManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
+
             if (![self.audioRecorder isRecording])
             {
                 [self.audioRecorder record];
@@ -630,7 +664,6 @@ MFMailComposeViewControllerDelegate
             if (_zz) {
                 int change_value = sqrtf((_zz-zTheta)*(_zz-zTheta))+sqrtf((_zx-xTheta)*(_zx-xTheta))+sqrtf((_zy-yTheta)*(_zy-yTheta));
 //                int change_value = fabs sqrtf((_zz-zTheta)*(_zz-zTheta))+sqrtf((_zx-xTheta)*(_zx-xTheta))+sqrtf((_zy-yTheta)*(_zy-yTheta));
-                
                 
                 _zz = zTheta;
                 _zx = xTheta;
@@ -681,7 +714,7 @@ MFMailComposeViewControllerDelegate
 #pragma mark - 打印
 - (void)log_data_angle:(int)change_value  power:(NSMutableArray *)power
 {
-    _sample_content.text = [NSString stringWithFormat:@"手机三轴变化的角度总和：%d \r声音分贝平均值：%@ \r",change_value,power[0]];
+    _sample_content.text = [NSString stringWithFormat:@"正在收集数据\r实时数据：\r手机三轴变化的角度总和：%d \r声音分贝平均值：%@ \r",change_value,power[0]];
 }
 
 #pragma mark - 录音声波状态监测
