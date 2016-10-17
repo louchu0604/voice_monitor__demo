@@ -18,8 +18,8 @@
 #import "UtilUserDefault.h"
 #import "SVProgressHUD.h"
 
-#define sample_recipients @"380192098@qq.com"
-#define serverUrl @"https://zs.somnic.com/api/file/1/uploadfile"
+#define sample_recipients @"38019****@qq.com"
+#define serverUrl @"https:*********"
 
 
 #define kRecordAudioFile @"myRecord.caf"
@@ -511,6 +511,14 @@ MFMailComposeViewControllerDelegate
 
     [_data_string setString:@""];
     
+    NSString *urlStr=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    urlStr=[urlStr stringByAppendingPathComponent:kRecordAudioFile];
+    NSURL *url=[NSURL fileURLWithPath:urlStr];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:url error:nil];
+
+    
 }
 - (void)anto_save
 {
@@ -537,6 +545,7 @@ MFMailComposeViewControllerDelegate
 #pragma mark - 将数据发送给服务器
 - (void)send_to_server:(NSString *)msg
 {
+    
     _sample_content.text = @"正在准备数据，请等待";
     NSMutableDictionary *info=[UtilUserDefault get_user_info];
     
@@ -575,8 +584,8 @@ MFMailComposeViewControllerDelegate
 
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSMutableDictionary *data = [NSMutableDictionary new];
-        NSString *uid =@"18605849405";
-        NSString *passwd =[UtilAPI md5sum:@"123456" ];
+        NSString *uid =@"1860*****";
+        NSString *passwd =[UtilAPI md5sum:@"1***6" ];
         [manager.requestSerializer setValue:@"1" forHTTPHeaderField:@"appid"];
         [manager.requestSerializer setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
@@ -686,6 +695,13 @@ MFMailComposeViewControllerDelegate
     
     [SVProgressHUD showSuccessWithStatus:@"清除成功"];
     _clearAll.enabled = YES;
+    
+    NSString *urlStr=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    urlStr=[urlStr stringByAppendingPathComponent:kRecordAudioFile];
+    NSURL *url=[NSURL fileURLWithPath:urlStr];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:url error:nil];
     
 }
 - (void)fresh_clearTitle
