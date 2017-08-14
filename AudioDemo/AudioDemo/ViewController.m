@@ -56,7 +56,6 @@ MFMailComposeViewControllerDelegate
 @property (strong,nonatomic) UIButton *editBtn;
 @property (strong,nonatomic) UIButton *sendmailBtn;
 
-
 @property (nonatomic,strong) NSMutableArray *datas;
 @property (nonatomic,strong) NSMutableString *data_string;
 @property (nonatomic, strong) CMMotionManager *mManager;
@@ -755,7 +754,8 @@ MFMailComposeViewControllerDelegate
                 _zy = yTheta;
                 NSMutableArray *sample =[self get_audioPowerChange];
                 [_data_string appendString:[NSString stringWithFormat:@"%d %@ ",change_value,sample[0]]];
-                [self log_data_angle:change_value power:[self get_audioPowerChange]];
+                _sample_content.text =[NSString stringWithFormat:@"%d %@ ",change_value,sample[1]];
+//                [self log_data_angle:change_value power:[self get_audioPowerChange]];
             }else
             {
                 _zz = zTheta;
@@ -809,6 +809,35 @@ MFMailComposeViewControllerDelegate
     int wp = [_audioRecorder peakPowerForChannel:0]+160;
     NSMutableArray *sample = [NSMutableArray new];
     [sample addObject:[NSString stringWithFormat:@"%d",power]];
+    
+    
+    [self.audioRecorder updateMeters];
+    float   level;                // The linear 0.0 .. 1.0 value we need.
+    float   minDecibels = -60.0f; // Or use -60dB, which I measured in a silent room.
+    float   decibels = [self.audioRecorder averagePowerForChannel:0];
+    if (decibels < minDecibels)
+    {
+        level = 0.0f;
+    }
+    else if (decibels >= 0.0f)
+    {
+        level = 1.0f;
+    }
+    else
+    {
+        float   root            = 2.0f;
+        float   minAmp          = powf(10.0f, 0.05f * minDecibels);
+        float   inverseAmpRange = 1.0f / (1.0f - minAmp);
+        float   amp             = powf(10.0f, 0.05f * decibels);
+        float   adjAmp          = (amp - minAmp) * inverseAmpRange;
+        
+        level = powf(adjAmp, 1.0f / root);
+    }
+    
+    float theVal = level * 120+30;
+    [sample addObject:[NSString stringWithFormat:@"%f",theVal]];
+
+    
 //    [sample addObject:[NSString stringWithFormat:@"%d",wp]];
     //取得第一个通道的音频，注意音频强度范围时-160到0
   //  NSLog(@"%.1f------->>%.1f",power,wp);
